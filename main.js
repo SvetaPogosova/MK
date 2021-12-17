@@ -1,6 +1,5 @@
 const $arenas = document.querySelector('.arenas')
-const $randomButton = document.querySelector('.button')
-const $restartButton = document.querySelector('.button')
+
 
 const player1 = {
     player: 1,
@@ -8,12 +7,7 @@ const player1 = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['Sword', 'Gun', 'Fan'],
-    attack: function () {
-        console.log(player1.name + ' Fight...')
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP,
+
 };
 
 const player2 = {
@@ -22,12 +16,7 @@ const player2 = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Sword', 'Gun', 'Fan'],
-    attack: function () {
-        console.log(player2.name + ' Fight...')
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP,
+
 }
 
 function createElement(tag, className) {
@@ -58,26 +47,7 @@ function createPlayer(playerObj) {
     return $player
 }
 
-/*
-function changeHP(player) {
-    const $playerLife = document.querySelector('.player' + player.player + ' .life')
-    player.hp -= Math.ceil(Math.random() * 20);
 
-    if (player.hp <= 0) {
-        player.hp = 0;
-    }
-    $playerLife.style.width = player.hp + '%'
-}
-*/
-function getRandom(num) {
-    return Math.ceil(Math.random() * num)
-}
-
-function changeHP(damage) {
-    this.hp -= damage
-    if (this.hp < 0) {
-        this.hp = 0;
-    }
 }
 
 function elHP() {
@@ -103,14 +73,13 @@ function createReloadButton() {
     const $restartButton = createElement('button', 'button')
     $restartButton.innerText = 'Restart';
     $reloadWrap.appendChild($restartButton)
-    //$arenas.appendChild($reloadWrap)
-    $reloadWrap.appendChild($restartButton)
+
     $restartButton.addEventListener('click', function () {
         window.location.reload()
     })
 }
 
-$randomButton.innerText = "Random"
+
 $randomButton.addEventListener('click', function () {
     player1.changeHP(getRandom(20))
     player2.changeHP(getRandom(20))
@@ -129,7 +98,4 @@ $randomButton.addEventListener('click', function () {
     } else if (player1.hp === 0 && player2.hp === 0) {
         $arenas.appendChild(playerWins())
     }
-})
 
-$arenas.appendChild(createPlayer(player1));
-$arenas.appendChild(createPlayer(player2));
