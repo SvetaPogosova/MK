@@ -8,7 +8,7 @@ const HIT = {
     foot: 20,
 }
 const ATTACK = ['head', 'body', 'foot'];
-const logs = {
+const LOGS = {
     start: 'Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.',
     end: [
         'Результат удара [playerWins]: [playerLose] - труп',
@@ -48,7 +48,7 @@ const logs = {
     draw: 'Ничья - это тоже победа!'
 };
 const date = new Date();
-const time = `${date.getHours()}:${date.getMinutes()}`
+const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 
 const player1 = {
     player: 1,
@@ -56,7 +56,6 @@ const player1 = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['Sword', 'Gun', 'Fan'],
-    attack,
     changeHP,
     elHP,
     renderHP,
@@ -67,14 +66,9 @@ const player2 = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Sword', 'Gun', 'Fan'],
-    attack,
     changeHP,
     elHP,
     renderHP,
-}
-
-function attack() {
-    console.log(player1.name + ' Fight...')
 }
 
 function createElement(tag, className) {
@@ -172,77 +166,62 @@ function playerAttack() {
     return attack
 }
 
+function generateLogs(type, player1, player2, damage, hp) {
+    let text = '';
+    let el = '';
+    switch (type) {
+        case 'start':
+            text = LOGS['start']
+                .replace('[time]', time)
+                .replace('[player1]', player1.name)
+                .replace('[player2]', player2.name);
+            el = `<p>${text}</p>`;
+            break;
+        case 'end':
+            text = LOGS['end'][getRandom(3 - 1)]
+                .replace('[time]', time)
+                .replace('[playerWins]', player1.name)
+                .replace('[playerLose]', player2.name);
+            el = `<p>${time} - ${text}</p>`;
+            break;
+        case 'hit':
+            text = LOGS['hit'][getRandom(18 - 1)]
+                .replace('[playerKick]', player1.name)
+                .replace('[playerDefence]', player2.name);
+            el = `<p>${time} - ${text} - ${damage} [${hp}/100]</p>`
+            break;
+        case 'defence':
+            text = LOGS['defence'][getRandom(8 - 1)]
+                .replace('[playerKick]', player1.name)
+                .replace('[playerDefence]', player2.name);
+            el = `<p>${time} - ${text} - ${damage} [${hp}/100]</p>`
+            break;
+        case 'draw':
+            text = LOGS['draw']
+            el = `<p>${time} - ${text}</p>`;
+            break;
+    }
+    return chat.insertAdjacentHTML('afterbegin', el)
+}
+
+generateLogs('start', player1, player2);
+
 function showResult() {
     if (player1.hp === 0 || player2.hp === 0) {
         createReloadButton()
     }
     if (player1.hp === 0 && player1.hp < player2.hp) {
-        $arenas.appendChild(playerWins(player2.name))
-        $arenas.appendChild(generateLogs('end'))
+        $arenas.appendChild(playerWins(player2.name));
+        generateLogs('end', player2, player1);
     } else if (player2.hp === 0 && player2.hp < player1.hp) {
-        $arenas.appendChild(playerWins(player1.name))
-        $arenas.appendChild(generateLogs('end'))
+        $arenas.appendChild(playerWins(player1.name));
+        generateLogs('end', player1, player2);
     } else if (player1.hp === 0 && player2.hp === 0) {
-        $arenas.appendChild(playerWins())
-        $arenas.appendChild(generateLogs('draw'))
-
+        $arenas.appendChild(playerWins());
+        generateLogs('draw');
     }
 }
 
-/*
-function generateStart(player1, player2) {
-    const text = logs['start']
-        .replace('[time]', time)
-        .replace('[player1]', player1.name)
-        .replace('[player2]', player2.name);
-    const el = `<p>${text}</p>`;
-    chat.insertAdjacentHTML('afterbegin', el)
-    console.log(text)
-}
-*/
-
-
-function generateLogs(type, player1, player2, damage, hp) {
-    let text = '';
-    //let el = '';
-    //chat.insertAdjacentHTML('afterbegin', el)
-    switch (type) {
-        case 'start':
-            text = logs['start']
-                .replace('[time]', time)
-                .replace('[player1]', player1.name)
-                .replace('[player2]', player2.name);
-            //const el = `<p>${text}</p>`;
-            return el = `<p>${text}</p>`;
-        case 'end':
-            text = logs['end']
-                .replace('[time]', time)
-                .replace('[player1]', player1.name)
-                .replace('[player2]', player2.name);
-            el = `<p>${text}</p>`;
-            return el;
-        case 'hit':
-            text = logs['hit'][getRandom(18-1)]
-                .replace('[playerKick]', player1.name)
-                .replace('[playerDefence]', player2.name);
-            el = `<p>${time} - ${text} - ${damage} [${hp}/100]</p>`
-            return el;
-        case 'defence':
-            text = logs['defence'][getRandom(8-1)]
-                .replace('[playerKick]', player1.name)
-                .replace('[playerDefence]', player2.name);
-            el = `<p>${time} - ${this.text} - ${damage} [${hp}/100]</p>`
-            return el;
-        case 'draw':
-            text = logs['draw']
-            el = `<p>${text}</p>`;
-            return el;
-    }
-    return chat.insertAdjacentHTML('afterbegin', el)
-
-}
-
-generateLogs('start', player1, player2)
 formFight.addEventListener('submit', function (e) {
     e.preventDefault();
     const enemy = enemyAttack();
@@ -251,14 +230,14 @@ formFight.addEventListener('submit', function (e) {
     if (player.defence !== enemy.hit) {
         player1.changeHP(enemy.value)
         player1.renderHP()
-        generateLogs('hit', player2, player1, enemy.value, player1.hp)
-        generateLogs('defence', player1, player2, player.value, player2.hp)
+        generateLogs('hit', player2, player1, enemy.value, player1.hp);
+        generateLogs('defence', player1, player2, player.value, player2.hp);
     }
     if (enemy.defence !== player.hit) {
         player2.changeHP(player.value)
         player2.renderHP()
-        generateLogs('hit', player1, player2, player.value, player2.hp)
-        generateLogs('defence', player2, player1, enemy.value, player1.hp)
+        generateLogs('hit', player1, player2, player.value, player2.hp);
+        generateLogs('defence', player2, player1, enemy.value, player1.hp);
     }
     showResult();
 })
