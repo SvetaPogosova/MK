@@ -1,4 +1,4 @@
-class Player {
+export class Player {
     constructor(props) {
         this.player = props.player;
         this.name = props.name;
@@ -21,19 +21,35 @@ class Player {
     renderHP = () => {
         this.elHP().style.width = this.hp + '%'
     }
+    createPlayer
 }
 
-export const player1 = new Player({
-    player: 1,
-    name: 'SCORPION',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-    weapon: ['Sword', 'Gun', 'Fan'],
-})
-export const player2 = new Player({
-    player: 2,
-    name: 'SUB-ZERO',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-    weapon: ['Sword', 'Gun', 'Fan'],
-})
+/*
+const createPlayer = ({player, name, hp, img}) => {
+    const $player = createElement('div', `player${player}`)
+    const $progressbar = createElement('div', 'progressbar');
+    const $life = createElement('div', 'life');
+    const $name = createElement('div', 'name');
+    const $character = createElement('div', 'character');
+    const image = createElement('img');
+
+    $name.innerText = name;
+    $life.style.width = hp + '%';
+    image.src = img;
+
+    $progressbar.appendChild($life);
+    $progressbar.appendChild($name);
+    $character.appendChild(image);
+    $player.appendChild($progressbar);
+    $player.appendChild($character);
+    return $player
+}
+*/
+
+export const createElement = (tag, className) => {
+    const $tag = document.createElement(tag);
+    if (className) {
+        $tag.classList.add(className);
+    }
+    return $tag
+};
