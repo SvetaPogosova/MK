@@ -1,3 +1,7 @@
+import {getRandom} from "./utils.js";
+import {formFight} from "./Game.js";
+import {ATTACK, HIT} from "./constants.js";
+
 export class Player {
     constructor(props) {
         this.player = props.player;
@@ -21,31 +25,32 @@ export class Player {
     renderHP = () => {
         this.elHP().style.width = this.hp + '%'
     }
-    createPlayer
 }
 
-/*
-const createPlayer = ({player, name, hp, img}) => {
-    const $player = createElement('div', `player${player}`)
-    const $progressbar = createElement('div', 'progressbar');
-    const $life = createElement('div', 'life');
-    const $name = createElement('div', 'name');
-    const $character = createElement('div', 'character');
-    const image = createElement('img');
-
-    $name.innerText = name;
-    $life.style.width = hp + '%';
-    image.src = img;
-
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
-    $character.appendChild(image);
-    $player.appendChild($progressbar);
-    $player.appendChild($character);
-    return $player
+export const enemyAttack = () => {
+    const hit = ATTACK[getRandom(ATTACK.length)];
+    const defence = ATTACK[getRandom(ATTACK.length)];
+    return {
+        value: getRandom(HIT[hit]),
+        hit,
+        defence,
+    }
 }
-*/
+export const playerAttack = () => {
+    const attack = {};
 
+    for (let item of formFight) {
+        if (item.checked && item.name === 'hit') {
+            attack.value = getRandom(HIT[item.value])
+            attack.hit = item.value;
+        }
+        if (item.checked && item.name === 'defence') {
+            attack.defence = item.value
+        }
+        item.checked = false
+    }
+    return attack
+}
 export const createElement = (tag, className) => {
     const $tag = document.createElement(tag);
     if (className) {
