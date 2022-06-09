@@ -1,12 +1,12 @@
 import {getRandom} from "./utils.js";
-import {formFight} from "./Game.js";
+import Game, {formFight} from "./Game.js";
 import {ATTACK, HIT} from "./constants.js";
 
 export class Player {
     constructor(props) {
         this.player = props.player;
         this.name = props.name;
-        this.hp = props.hp;
+        this.hp = 100;
         this.img = props.img;
         this.weapon = props.weapon;
     }

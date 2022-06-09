@@ -13,25 +13,23 @@ class Game {
         this.chat = document.querySelector('.chat');
     }
 
-    getPlayers = async () => {
-        return fetch('https://reactmarathon-api.herokuapp.com/api/mk/players').then(res => res.json());
+    getEnemyPlayer = async () => {
+        return fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose').then(res => res.json());
     }
 
     start = async () => {
-        const players = await this.getPlayers();
-        const p1 = players[getRandom(players.length)];
-        const p2 = players[getRandom(players.length)];
+        const enemy = await this.getEnemyPlayer();
+        const player = JSON.parse(localStorage.getItem('player1'));
+
         player1 = new Player({
-            ...p1,
+            ...player,
             player: 1,
             rootSelector: 'arenas',
-
         });
         player2 = new Player({
-            ...p2,
+            ...enemy,
             player: 2,
             rootSelector: 'arenas',
-
         });
         const generateLogs = (type, player1, player2, damage) => {
             let text = '';
@@ -55,13 +53,13 @@ class Game {
                     text = LOGS['hit'][getRandom(LOGS.hit.length)]
                         .replace('[playerKick]', player1.name)
                         .replace('[playerDefence]', player2.name);
-                    el = `<p>${time} - ${text} - ${damage} [${player2.hp}/100]</p>`
+                    el = `<p>${time} - ⚔️ ${text} - ${damage} [${player2.hp}/100]</p>`
                     break;
                 case 'defence':
                     text = LOGS['defence'][getRandom(LOGS.defence.length)]
                         .replace('[playerKick]', player1.name)
                         .replace('[playerDefence]', player2.name);
-                    el = `<p>${time} - ${text} - [${player2.hp}/100]</p>`
+                    el = `<p>${time} - 🛡 ${text} - [${player2.hp}/100]</p>`
                     break;
                 case 'draw':
                     text = LOGS['draw']
@@ -87,7 +85,7 @@ class Game {
             $reloadWrap.appendChild($restartButton)
             this.$arenas.appendChild($reloadWrap)
             $restartButton.addEventListener('click', function () {
-                window.location.reload()
+                window.location.pathname = 'MK/index.html'
             })
         }
         const createPlayer = ({player, name, hp, img}) => {
@@ -127,6 +125,7 @@ class Game {
 
         createPlayer(player1);
         createPlayer(player2);
+
         this.$arenas.appendChild(createPlayer(player1));
         this.$arenas.appendChild(createPlayer(player2));
         generateLogs('start', player1, player2)
@@ -150,7 +149,6 @@ class Game {
             showResult();
         })
     }
-
 }
 
 export default Game
