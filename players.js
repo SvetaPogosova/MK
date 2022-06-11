@@ -1,8 +1,12 @@
-class Player {
+import {getRandom} from "./utils.js";
+import Game, {formFight} from "./Game.js";
+import {ATTACK, HIT} from "./constants.js";
+
+export class Player {
     constructor(props) {
         this.player = props.player;
         this.name = props.name;
-        this.hp = props.hp;
+        this.hp = 100;
         this.img = props.img;
         this.weapon = props.weapon;
     }
@@ -23,17 +27,34 @@ class Player {
     }
 }
 
-export const player1 = new Player({
-    player: 1,
-    name: 'SCORPION',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-    weapon: ['Sword', 'Gun', 'Fan'],
-})
-export const player2 = new Player({
-    player: 2,
-    name: 'SUB-ZERO',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-    weapon: ['Sword', 'Gun', 'Fan'],
-})
+export const enemyAttack = () => {
+    const hit = ATTACK[getRandom(ATTACK.length)];
+    const defence = ATTACK[getRandom(ATTACK.length)];
+    return {
+        value: getRandom(HIT[hit]),
+        hit,
+        defence,
+    }
+}
+export const playerAttack = () => {
+    const attack = {};
+
+    for (let item of formFight) {
+        if (item.checked && item.name === 'hit') {
+            attack.value = getRandom(HIT[item.value])
+            attack.hit = item.value;
+        }
+        if (item.checked && item.name === 'defence') {
+            attack.defence = item.value
+        }
+        item.checked = false
+    }
+    return attack
+}
+export const createElement = (tag, className) => {
+    const $tag = document.createElement(tag);
+    if (className) {
+        $tag.classList.add(className);
+    }
+    return $tag
+};

@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cde73483-8645-4ac3-8d91-3d4600656e91" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/players.js" beforeDir="false" afterPath="$PROJECT_DIR$/players.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playersMove.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +13,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -38,10 +35,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -68,6 +67,14 @@
       <workItem from="1640100520370" duration="4036000" />
       <workItem from="1640113653208" duration="371000" />
       <workItem from="1640265382061" duration="7870000" />
+      <workItem from="1640432193717" duration="5014000" />
+      <workItem from="1640599109852" duration="2757000" />
+      <workItem from="1640794800948" duration="10132000" />
+      <workItem from="1651066772561" duration="62000" />
+      <workItem from="1651232554021" duration="10096000" />
+      <workItem from="1651848412477" duration="4001000" />
+      <workItem from="1652975931849" duration="2932000" />
+      <workItem from="1653581437833" duration="10110000" />
     </task>
     <servers />
   </component>
